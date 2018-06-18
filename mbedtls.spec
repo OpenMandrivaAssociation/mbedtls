@@ -135,6 +135,12 @@ enable_mbedtls_option POLARSSL_ZLIB_SUPPORT
 enable_mbedtls_option POLARSSL_HAVEGE_C
 
 %build
+%ifarch %{ix86}
+# Needed because of strange inline ASM constructs
+# clang doesn't parse
+export CC=gcc
+export CXX=g++
+%endif
 %cmake \
 	-DUSE_SHARED_MBEDTLS_LIBRARY:BOOL=ON \
 	-DUSE_STATIC_MBEDTLS_LIBRARY:BOOL=OFF \
