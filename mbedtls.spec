@@ -51,6 +51,7 @@ This package contains the library itself.
 
 %files -n %{libname}
 %{_libdir}/libmbedtls.so.%{major}*
+%{_libdir}/libmbedtls.so.1*
 
 #----------------------------------------------------------------------------
 
