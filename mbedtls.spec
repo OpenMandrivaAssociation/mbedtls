@@ -1,12 +1,12 @@
-%define major	2
-%define libname	%mklibname %{name} %{major}
-%define clibname	%mklibname mbedcrypto %{major}
-%define xlibname	%mklibname mbedx509 %{major}
+%define major 2
+%define libname %mklibname %{name} %{major}
+%define clibname %mklibname mbedcrypto %{major}
+%define xlibname %mklibname mbedx509 %{major}
 %define devname	%mklibname %{name} -d
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	2.9.0
+Version:	2.13.0
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
@@ -50,7 +50,7 @@ coupled and portable.
 This package contains the library itself.
 
 %files -n %{libname}
-%{_libdir}/libmbedtls.so.*
+%{_libdir}/libmbedtls.so.%{major}*
 
 #----------------------------------------------------------------------------
 
@@ -150,6 +150,7 @@ export CXX=g++
 	-DUSE_PKCS11_HELPER_LIBRARY:BOOL=ON \
 	-DLINK_WITH_PTHREAD:BOOL=ON \
 	-G Ninja
+
 %ninja_build
 
 # doc
