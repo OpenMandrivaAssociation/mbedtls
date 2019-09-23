@@ -6,12 +6,16 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	2.14.0
+Version:	2.16.3
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
 Url:		https://tls.mbed.org
+# This is the official download location...
 Source0:	https://tls.mbed.org/download/mbedtls-%{version}-apache.tgz
+# Sometimes newer versions can be found here - but they appear to be
+# unsupported interim releases on the way to a new branch
+#Source0:	https://github.com/ARMmbed/mbedtls/archive/mbedtls-%{version}.tar.gz
 
 BuildRequires:	cmake ninja
 BuildRequires:	doxygen
