@@ -6,16 +6,16 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	2.16.6
+Version:	2.24.0
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
 Url:		https://tls.mbed.org
 # This is the official download location...
-Source0:	https://tls.mbed.org/download/mbedtls-%{version}-apache.tgz
+#Source0:	https://tls.mbed.org/download/mbedtls-%{version}-apache.tgz
 # Sometimes newer versions can be found here - but they appear to be
 # unsupported interim releases on the way to a new branch
-#Source0:	https://github.com/ARMmbed/mbedtls/archive/mbedtls-%{version}.tar.gz
+Source0:	https://github.com/ARMmbed/mbedtls/archive/v%{version}/mbedtls-%{version}.tar.gz
 
 BuildRequires:	cmake ninja
 BuildRequires:	doxygen
@@ -117,6 +117,7 @@ This package contains development files.
 
 %files -n %{devname}
 %{_includedir}/%{name}
+%{_includedir}/psa
 %{_libdir}/lib%{name}.so
 %{_libdir}/libmbedcrypto.so
 %{_libdir}/libmbedx509.so
@@ -147,6 +148,7 @@ export CC=gcc
 export CXX=g++
 %endif
 %cmake \
+	-DMBEDTLS_PYTHON_EXECUTABLE=%{_bindir}/python \
 	-DUSE_SHARED_MBEDTLS_LIBRARY:BOOL=ON \
 	-DUSE_STATIC_MBEDTLS_LIBRARY:BOOL=OFF \
 	-DENABLE_PROGRAMS:BOOL=ON \
