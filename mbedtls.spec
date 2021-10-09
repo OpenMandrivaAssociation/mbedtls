@@ -1,12 +1,14 @@
+%global optflags %{optflags} -Wno-error=unused-but-set-parameter -Wno-error=unknown-warning-option
+
 %define major 2
 %define libname %mklibname %{name} %{major}
 %define clibname %mklibname mbedcrypto %{major}
 %define xlibname %mklibname mbedx509 %{major}
-%define devname	%mklibname %{name} -d
+%define devname %mklibname %{name} -d
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	2.25.0
+Version:	2.27.0
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
@@ -169,9 +171,5 @@ export CXX=g++
 # fix files name
 for file in benchmark
 do
-	mv %{buildroot}%{_bindir}/${file} %{buildroot}%{_bindir}/${file}.mbedtls
+    mv %{buildroot}%{_bindir}/${file} %{buildroot}%{_bindir}/${file}.mbedtls
 done
-
-%check
-# tests
-LD_LIBRARY_PATH=%{buildroot}%{_libdir} %ninja_build -C build test
