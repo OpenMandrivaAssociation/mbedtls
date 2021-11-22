@@ -1,4 +1,7 @@
-%global optflags %{optflags} -Wno-error=unused-but-set-parameter -Wno-error=unknown-warning-option
+%global optflags %{optflags} -O3 -Wno-error=unused-but-set-parameter -Wno-error=unknown-warning-option
+
+# (tpg) enable PGO build
+%bcond_without pgo
 
 %define major 2
 %define libname %mklibname %{name} %{major}
@@ -9,17 +12,18 @@
 Summary:	An SSL library
 Name:		mbedtls
 Version:	2.27.0
-Release:	1
+Release:	2
 License:	Apache 2.0
 Group:		System/Libraries
 Url:		https://tls.mbed.org
 # This is the official download location...
-#Source0:	https://tls.mbed.org/download/mbedtls-%{version}-apache.tgz
+# Source0:	https://tls.mbed.org/download/mbedtls-%{version}-apache.tgz
 # Sometimes newer versions can be found here - but they appear to be
 # unsupported interim releases on the way to a new branch
 Source0:	https://github.com/ARMmbed/mbedtls/archive/v%{version}/mbedtls-%{version}.tar.gz
 
-BuildRequires:	cmake ninja
+BuildRequires:	cmake
+BuildRequires:	ninja
 BuildRequires:	doxygen
 BuildRequires:	graphviz
 BuildRequires:	pkgconfig(libcrypto)
@@ -75,7 +79,7 @@ coupled and portable.
 This package contains the library itself.
 
 %files -n %{clibname}
-%{_libdir}/libmbedcrypto.so.*
+%{_libdir}/libmbedcrypto.so.{major}.*
 
 #----------------------------------------------------------------------------
 
@@ -148,6 +152,38 @@ enable_mbedtls_option POLARSSL_HAVEGE_C
 # clang doesn't parse
 export CC=gcc
 export CXX=g++
+%endif
+
+%if %{with pgo}
+export LD_LIBRARY_PATH="$(pwd)"
+
+CFLAGS="%{optflags} -fprofile-generate" \
+CXXFLAGS="%{optflags} -fprofile-generate" \
+LDFLAGS="%{build_ldflags} -fprofile-generate" \
+%cmake \
+	-DMBEDTLS_PYTHON_EXECUTABLE=%{_bindir}/python \
+	-DUSE_SHARED_MBEDTLS_LIBRARY:BOOL=ON \
+	-DUSE_STATIC_MBEDTLS_LIBRARY:BOOL=OFF \
+	-DENABLE_PROGRAMS:BOOL=ON \
+	-DENABLE_TESTING:BOOL=ON \
+	-DENABLE_ZLIB_SUPPORT:BOOL=ON \
+	-DUSE_PKCS11_HELPER_LIBRARY:BOOL=ON \
+	-DLINK_WITH_PTHREAD:BOOL=ON \
+	-G Ninja
+
+%ninja_build
+
+LD_PRELOAD="./build/library/libmbedcrypto.so ./build/library/libmbedx509.so ./build/library/libmbedtls.so ./build/library/libmbedcrypto.so.7" %ninja_test || (cat Testing/Temporary/LastTest.log && exit 1)
+
+unset LD_LIBRARY_PATH
+llvm-profdata merge --output=%{name}-llvm.profdata $(find . -type f -name "*.profraw")
+PROFDATA="$(realpath %{name}-llvm.profdata)"
+rm -f *.profraw
+ninja clean
+
+CFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+CXXFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+LDFLAGS="%{build_ldflags} -fprofile-use=$PROFDATA" \
 %endif
 %cmake \
 	-DMBEDTLS_PYTHON_EXECUTABLE=%{_bindir}/python \
