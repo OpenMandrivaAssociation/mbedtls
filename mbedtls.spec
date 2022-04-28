@@ -1,7 +1,7 @@
 %global optflags %{optflags} -O3 -Wno-error=unused-but-set-parameter -Wno-error=unknown-warning-option
 
 # (tpg) enable PGO build
-%bcond_without pgo
+%bcond_with pgo
 
 %define major 2
 %define libname %mklibname %{name} %{major}
