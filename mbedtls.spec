@@ -4,6 +4,7 @@
 %bcond_without pgo
 
 %define major 2
+%define cryptomajor 7
 %define libname %mklibname %{name} %{major}
 %define clibname %mklibname mbedcrypto %{major}
 %define xlibname %mklibname mbedx509 %{major}
@@ -11,8 +12,8 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	2.27.0
-Release:	2
+Version:	2.28.0
+Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
 Url:		https://tls.mbed.org
@@ -79,7 +80,8 @@ coupled and portable.
 This package contains the library itself.
 
 %files -n %{clibname}
-%{_libdir}/libmbedcrypto.so.{major}.*
+%{_libdir}/libmbedcrypto.so.%{cryptomajor}*
+%{_libdir}/libmbedcrypto.so.%{version}*
 
 #----------------------------------------------------------------------------
 
