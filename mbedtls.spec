@@ -79,7 +79,7 @@ coupled and portable.
 This package contains the library itself.
 
 %files -n %{clibname}
-%{_libdir}/libmbedcrypto.so.{major}.*
+#{_libdir}/libmbedcrypto.so.{major}.*
 
 #----------------------------------------------------------------------------
 
