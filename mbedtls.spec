@@ -80,7 +80,8 @@ coupled and portable.
 This package contains the library itself.
 
 %files -n %{clibname}
-%{_libdir}/libmbedcrypto.so.%{cryptomajor}.*
+%{_libdir}/libmbedcrypto.so.%{cryptomajor}*
+%{_libdir}/libmbedcrypto.so.%{version}*
 
 #----------------------------------------------------------------------------
 
