@@ -4,6 +4,7 @@
 %bcond_with pgo
 
 %define major 2
+%define cryptomajor 7
 %define libname %mklibname %{name} %{major}
 %define clibname %mklibname mbedcrypto %{major}
 %define xlibname %mklibname mbedx509 %{major}
@@ -79,7 +80,7 @@ coupled and portable.
 This package contains the library itself.
 
 %files -n %{clibname}
-#{_libdir}/libmbedcrypto.so.{major}.*
+#{_libdir}/libmbedcrypto.so.{cryptomajor}.*
 
 #----------------------------------------------------------------------------
 
