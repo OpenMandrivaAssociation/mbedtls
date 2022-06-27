@@ -137,16 +137,16 @@ This package contains development files.
 %prep
 %autosetup -p1
 
-enable_mbedtls_option() {
-    local myopt="$@"
-    # check that config.h syntax is the same at version bump
-    sed -i \
-        -e "s://#define ${myopt}:#define ${myopt}:" \
-        include/mbedtls/config.h || die
-}
+#enable_mbedtls_option() {
+#    local myopt="$@"
+#    # check that config.h syntax is the same at version bump
+#    sed -i \
+#        -e "s://#define ${myopt}:#define ${myopt}:" \
+#        include/mbedtls/config.h || die
+#}
 
-enable_mbedtls_option POLARSSL_ZLIB_SUPPORT
-enable_mbedtls_option POLARSSL_HAVEGE_C
+#enable_mbedtls_option POLARSSL_ZLIB_SUPPORT
+#enable_mbedtls_option POLARSSL_HAVEGE_C
 
 %build
 %ifarch %{ix86}
