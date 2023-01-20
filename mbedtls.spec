@@ -1,7 +1,7 @@
 %global optflags %{optflags} -O3 -Wno-error=unused-but-set-parameter -Wno-error=unknown-warning-option
 
 # (tpg) enable PGO build
-%bcond_without pgo
+%bcond_with pgo
 
 %define major 2
 %define cryptomajor 7
@@ -12,7 +12,7 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	2.28.0
+Version:	2.28.2
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
@@ -159,7 +159,7 @@ export CXX=g++
 %if %{with pgo}
 export LD_LIBRARY_PATH="$(pwd)"
 
-CFLAGS="%{optflags} -fprofile-generate" \
+CFLAGS="%{optflags} -fprofile-generate -Wno-unused-but-set-variable -Wno-documentation" \
 CXXFLAGS="%{optflags} -fprofile-generate" \
 LDFLAGS="%{build_ldflags} -fprofile-generate" \
 %cmake \
@@ -183,9 +183,11 @@ PROFDATA="$(realpath %{name}-llvm.profdata)"
 rm -f *.profraw
 ninja clean
 
-CFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+CFLAGS="%{optflags} -fprofile-use=$PROFDATA -Wno-unused-but-set-variable -Wno-documentation" \
 CXXFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
 LDFLAGS="%{build_ldflags} -fprofile-use=$PROFDATA" \
+%else
+CFLAGS="%{optflags} -Wno-unused-but-set-variable -Wno-documentation" \
 %endif
 %cmake \
 	-DMBEDTLS_PYTHON_EXECUTABLE=%{_bindir}/python \
