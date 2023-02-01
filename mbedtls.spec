@@ -5,15 +5,18 @@
 
 %define major 2
 %define cryptomajor 7
-%define libname %mklibname %{name} %{major}
-%define clibname %mklibname mbedcrypto %{major}
-%define xlibname %mklibname mbedx509 %{major}
+%define libname %mklibname %{name}
+%define oldlibname %mklibname %{name} 2
+%define clibname %mklibname mbedcrypto
+%define oldclibname %mklibname mbedcrypto 2
+%define xlibname %mklibname mbedx509
+%define oldxlibname %mklibname mbedx509 2
 %define devname %mklibname %{name} -d
 
 Summary:	An SSL library
 Name:		mbedtls
 Version:	2.28.2
-Release:	1
+Release:	2
 License:	Apache 2.0
 Group:		System/Libraries
 Url:		https://tls.mbed.org
@@ -50,6 +53,7 @@ This package contains mbed TLS programs.
 %package -n %{libname}
 Summary:	mbed TLS library
 Group:		System/Libraries
+%rename %{oldlibname}
 
 %description -n %{libname}
 mbed TLS (formerly PolarSSL) is an SSL library written in ANSI C.
@@ -69,6 +73,7 @@ This package contains the library itself.
 %package -n %{clibname}
 Summary:	mbed TLS Crypto library
 Group:		System/Libraries
+%rename %{oldclibname}
 
 %description -n %{clibname}
 mbed TLS (formerly PolarSSL) is an SSL library written in ANSI C.
@@ -88,6 +93,7 @@ This package contains the library itself.
 %package -n %{xlibname}
 Summary:	mbed TLS X.509 library
 Group:		System/Libraries
+%rename %{oldxlibname}
 
 %description -n %{xlibname}
 mbed TLS (formerly PolarSSL) is an SSL library written in ANSI C.
@@ -145,8 +151,8 @@ enable_mbedtls_option() {
         include/mbedtls/config.h || die
 }
 
-enable_mbedtls_option POLARSSL_ZLIB_SUPPORT
-enable_mbedtls_option POLARSSL_HAVEGE_C
+enable_mbedtls_option MBEDTLS_ZLIB_SUPPORT
+enable_mbedtls_option MBEDTLS_HAVEGE_C
 
 %build
 %ifarch %{ix86}
