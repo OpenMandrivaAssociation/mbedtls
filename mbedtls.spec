@@ -16,7 +16,7 @@
 Summary:	An SSL library
 Name:		mbedtls
 Version:	2.28.2
-Release:	2
+Release:	3
 License:	Apache 2.0
 Group:		System/Libraries
 Url:		https://tls.mbed.org
