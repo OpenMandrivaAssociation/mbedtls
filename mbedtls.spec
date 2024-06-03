@@ -15,8 +15,8 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	2.28.2
-Release:	3
+Version:	2.28.8
+Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
 Url:		https://tls.mbed.org
@@ -131,10 +131,12 @@ This package contains development files.
 
 %files -n %{devname}
 %{_includedir}/%{name}
+%{_includedir}/everest
 %{_includedir}/psa
 %{_libdir}/lib%{name}.so
 %{_libdir}/libmbedcrypto.so
 %{_libdir}/libmbedx509.so
+%{_libdir}/pkgconfig/*.pc
 %doc apidoc
 %license LICENSE
 
