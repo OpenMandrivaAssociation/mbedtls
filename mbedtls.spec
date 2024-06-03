@@ -3,8 +3,8 @@
 # (tpg) enable PGO build
 %bcond_with pgo
 
-%define major 2
-%define cryptomajor 7
+%define major 21
+%define cryptomajor 16
 %define libname %mklibname %{name}
 %define oldlibname %mklibname %{name} 2
 %define clibname %mklibname mbedcrypto
@@ -15,7 +15,7 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	2.28.8
+Version:	3.6.0
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
@@ -24,7 +24,8 @@ Url:		https://tls.mbed.org
 # Source0:	https://tls.mbed.org/download/mbedtls-%{version}-apache.tgz
 # Sometimes newer versions can be found here - but they appear to be
 # unsupported interim releases on the way to a new branch
-Source0:	https://github.com/ARMmbed/mbedtls/archive/v%{version}/mbedtls-%{version}.tar.gz
+#Source0:	https://github.com/ARMmbed/mbedtls/archive/v%{version}/mbedtls-%{version}.tar.gz
+Source0:	https://github.com/Mbed-TLS/mbedtls/releases/download/v%{version}/mbedtls-%{version}.tar.bz2
 
 BuildRequires:	cmake
 BuildRequires:	ninja
@@ -66,7 +67,7 @@ This package contains the library itself.
 
 %files -n %{libname}
 %{_libdir}/libmbedtls.so.%{major}*
-%{_libdir}/libmbedtls.so.1*
+%{_libdir}/libmbedtls.so.%{version}*
 
 #----------------------------------------------------------------------------
 
@@ -136,7 +137,10 @@ This package contains development files.
 %{_libdir}/lib%{name}.so
 %{_libdir}/libmbedcrypto.so
 %{_libdir}/libmbedx509.so
+%{_libdir}/libeverest.so
+%{_libdir}/libp256m.so
 %{_libdir}/pkgconfig/*.pc
+%{_libdir}/cmake/MbedTLS
 %doc apidoc
 %license LICENSE
 
@@ -145,25 +149,7 @@ This package contains development files.
 %prep
 %autosetup -p1
 
-enable_mbedtls_option() {
-    local myopt="$@"
-    # check that config.h syntax is the same at version bump
-    sed -i \
-        -e "s://#define ${myopt}:#define ${myopt}:" \
-        include/mbedtls/config.h || die
-}
-
-enable_mbedtls_option MBEDTLS_ZLIB_SUPPORT
-enable_mbedtls_option MBEDTLS_HAVEGE_C
-
 %build
-%ifarch %{ix86}
-# Needed because of strange inline ASM constructs
-# clang doesn't parse
-export CC=gcc
-export CXX=g++
-%endif
-
 %if %{with pgo}
 export LD_LIBRARY_PATH="$(pwd)"
 
