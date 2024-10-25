@@ -15,7 +15,7 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	3.6.1
+Version:	3.6.2
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
@@ -162,8 +162,6 @@ LDFLAGS="%{build_ldflags} -fprofile-generate" \
 	-DUSE_STATIC_MBEDTLS_LIBRARY:BOOL=OFF \
 	-DENABLE_PROGRAMS:BOOL=ON \
 	-DENABLE_TESTING:BOOL=ON \
-	-DENABLE_ZLIB_SUPPORT:BOOL=ON \
-	-DUSE_PKCS11_HELPER_LIBRARY:BOOL=ON \
 	-DLINK_WITH_PTHREAD:BOOL=ON \
 	-G Ninja
 
@@ -189,8 +187,6 @@ CFLAGS="%{optflags} -Wno-unused-but-set-variable -Wno-documentation" \
 	-DUSE_STATIC_MBEDTLS_LIBRARY:BOOL=OFF \
 	-DENABLE_PROGRAMS:BOOL=ON \
 	-DENABLE_TESTING:BOOL=ON \
-	-DENABLE_ZLIB_SUPPORT:BOOL=ON \
-	-DUSE_PKCS11_HELPER_LIBRARY:BOOL=ON \
 	-DLINK_WITH_PTHREAD:BOOL=ON \
 	-G Ninja
 
