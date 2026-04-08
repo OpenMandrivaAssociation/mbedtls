@@ -15,7 +15,7 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	3.6.3
+Version:	3.6.6
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
@@ -148,6 +148,18 @@ This package contains development files.
 
 %prep
 %autosetup -p1
+
+# Enable config options that are invisible to cmake, but can be
+# enabled/disabled by editing mbedtls_config.h
+enable() {
+	sed -i -e "s,^//#define $1,#define $1," include/mbedtls/mbedtls_config.h
+}
+%ifarch znver1
+enable MBEDTLS_HAVE_SSE2
+%endif
+enable MBEDTLS_SSL_DTLS_SRTP
+
+
 
 %build
 %if %{with pgo}
