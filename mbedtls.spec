@@ -16,7 +16,7 @@
 Summary:	An SSL library
 Name:		mbedtls
 Version:	3.6.6
-Release:	1
+Release:	2
 License:	Apache 2.0
 Group:		System/Libraries
 Url:		https://tls.mbed.org
@@ -158,7 +158,8 @@ enable() {
 enable MBEDTLS_HAVE_SSE2
 %endif
 enable MBEDTLS_SSL_DTLS_SRTP
-
+enable MBEDTLS_THREADING_C
+enable MBEDTLS_THREADING_PTHREAD
 
 
 %build
