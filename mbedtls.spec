@@ -15,7 +15,7 @@
 
 Summary:	An SSL library
 Name:		mbedtls
-Version:	3.6.7
+Version:	3.6.8
 Release:	1
 License:	Apache 2.0
 Group:		System/Libraries
